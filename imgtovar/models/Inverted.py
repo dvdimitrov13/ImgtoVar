@@ -11,7 +11,7 @@ def loadModel(
     url="https://github.com/dvdimitrov13/thesis_modelzoo/releases/download/v.1.0.0/inverted_cls.h5",
 ):
 
-    home = functions.get_deepface_home()
+    home = functions.get_imgtovar_home()
 
     if os.path.isfile(home + "/.imgtovar/weights/inverted_cls.h5") != True:
         print("inverted_cls.h5 will be downloaded...")

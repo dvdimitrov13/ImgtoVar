@@ -1,10 +1,12 @@
 import os
+import re
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 import numpy as np
 import pandas as pd
 import cv2
+import glob
 import base64
 from pathlib import Path
 from PIL import Image
@@ -25,6 +27,7 @@ from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from tensorflow.keras.preprocessing import image
 
 from deepface.commons import functions
+from deepface.detectors import FaceDetector
 from deepface.detectors import (
     OpenCvWrapper,
     SsdWrapper,
@@ -48,7 +51,7 @@ def initialize_input(data):
 
 
 def initialize_folder():
-    home = get_deepface_home()
+    home = get_imgtovar_home()
 
     if not os.path.exists(home + "/.imgtovar"):
         os.makedirs(home + "/.imgtovar")
@@ -59,7 +62,7 @@ def initialize_folder():
         print("Directory ", home, "/.imgtovar/weights created")
 
 
-def get_deepface_home():
+def get_imgtovar_home():
     return str(os.getenv("IMGTOVAR_HOME", default=Path.home()))
 
 
@@ -116,9 +119,11 @@ def download_asset(url):
         gdown.download(url, output, quiet=False)
 
 
-def detect_faces(
-    face_detector, detector_backend, img, align=True, enforce_detection=True
-):
+def detect_faces(img, detector_backend, align=True, enforce_detection=True):
+
+    if isinstance(img, str):
+        print("Converting!")
+        img = load_image(img=img, BGR=True)
 
     backends = {
         "opencv": OpenCvWrapper.detect_face,
@@ -130,6 +135,11 @@ def detect_faces(
     }
 
     detect_face = backends.get(detector_backend)
+
+    # detector stored in a global variable in FaceDetector object.
+    # this call should be completed very fast because it will return found in memory
+    # it will not build face detector model in each call (consider for loops)
+    face_detector = FaceDetector.build_model(detector_backend)
 
     if detect_face:
         obj = detect_face(face_detector, img, align)
@@ -156,16 +166,23 @@ def preprocess_img(img, target_size=(224, 224), grayscale=False):
     )
 
 
+def extract_number(f):
+    s = re.findall("\d+$", f)
+    return (int(s[0]) if s else -1, f)
+
+
 def build_yolo_df(label_names, name):
     final = pd.DataFrame(
         columns=["label", "xmin", "ymin", "xmax", "ymax", "confidence", "filename"]
     )
 
-    for file in tqdm(
-        os.listdir("./runs/detect/" + name + "/labels"), desc="Aggregating predictions",
-    ):
+    name = max(glob.glob("./runs/detect/{}*".format(name)), key=extract_number)
+
+    print(name)
+
+    for file in tqdm(os.listdir(name + "/labels"), desc="Aggregating predictions",):
         temp = pd.read_csv(
-            os.path.join("./runs/detect/" + name + "/labels", file),
+            os.path.join(name + "/labels", file),
             skipinitialspace=True,
             header=None,
             names=["label", "xmin", "ymin", "xmax", "ymax", "confidence"],

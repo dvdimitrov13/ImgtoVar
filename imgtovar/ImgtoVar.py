@@ -137,18 +137,41 @@ def color_analysis(
     df_mt = pd.DataFrame(d)
 
     if extract_artificial:
-        df_mt = df_mt[df_mt["{}_dominant_pairs_%".format(color_width)] > threshold]
-        print(f"{len(df_mt)} artificial images found")
-        return df_mt
+        prompt = input(
+            "This action will make changes to your DATA directory, make sure to work with a copy of the original! Proceed ([y]/n)? "
+        ).lower()
 
-    else:
-        return df_mt
+        if prompt == "y":
+            artificial = df_mt[
+                df_mt["{}_dominant_pairs_%".format(color_width)] > threshold
+            ]
+            print(f"{len(df_mt)} artificial images found")
+            artlist = artificial["filename"].tolist()
+
+            if not os.path.exists("./Artificial_images"):
+                os.mkdir("./Artificial_images")
+
+            for file in tqdm(
+                files, desc="Moving Artificial immages to ./Artificial_images"
+            ):
+                if file in artlist:
+                    shutil.move(os.path.join(DIR, file), "./Artificial_images")
+
+            return df_mt
+
+        else:
+            print("No changes were made!")
+            return df_mt
+
+    return df_mt
 
 
-def detect_infographics(data, model=None, run_on_cpu=False, filter_infographics=False):
+def detect_infographics(data, model=None, run_on_gpu=False, extract_infographics=False):
 
-    if run_on_cpu:
-        os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+    if run_on_gpu:
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
     DIR, files = functions.initialize_input(data)
 
@@ -187,7 +210,7 @@ def detect_infographics(data, model=None, run_on_cpu=False, filter_infographics=
 
     df = pd.DataFrame(d)
 
-    if filter_infographics:
+    if extract_infographics:
         prompt = input(
             "This action will make changes to your DATA directory, make sure to work with a copy of the original! Proceed ([y]/n)? "
         ).lower()
@@ -212,10 +235,12 @@ def detect_infographics(data, model=None, run_on_cpu=False, filter_infographics=
     return pd.DataFrame(d)
 
 
-def detect_invertedImg(data, model=None, run_on_cpu=False, filter_inverted=False):
+def detect_invertedImg(data, model=None, run_on_gpu=False, extract_inverted=False):
 
-    if run_on_cpu:
-        os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+    if run_on_gpu:
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
     DIR, files = functions.initialize_input(data)
 
@@ -225,11 +250,9 @@ def detect_invertedImg(data, model=None, run_on_cpu=False, filter_inverted=False
 
     d = []
 
-    for file in tqdm(files), "Analysing images":
+    for file in tqdm(files, "Analysing images"):
 
         img = functions.load_image(img=os.path.join(DIR, file), BGR=False)
-
-        # nature_labels = ["True", "Inverted"]
 
         prep_img = functions.preprocess_img(img)
         prediction = int(np.argmax(model.predict(prep_img), axis=1))
@@ -238,7 +261,7 @@ def detect_invertedImg(data, model=None, run_on_cpu=False, filter_inverted=False
 
     df = pd.DataFrame(d)
 
-    if filter_inverted:
+    if extract_inverted:
         prompt = input(
             "This action will make changes to your DATA directory, make sure to work with a copy of the original! Proceed ([y]/n)? "
         ).lower()
@@ -263,9 +286,12 @@ def detect_invertedImg(data, model=None, run_on_cpu=False, filter_inverted=False
     return pd.DataFrame(d)
 
 
-def background_analysis(data, model=None, run_on_cpu=False):
-    if run_on_cpu:
-        os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+def background_analysis(data, model=None, run_on_gpu=False):
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+    if run_on_gpu:
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
     DIR, files = functions.initialize_input(data)
 
@@ -297,13 +323,16 @@ def face_analysis(
     detector_backend="retinaface",
     extract_faces=False,
     enforce_detection=True,
-    return_raw=False,
+    return_JSON=False,
     custom_model_channel="RGB",
     custom_target_size=(224, 224),
-    run_on_cpu=False,
+    run_on_gpu=False,
 ):
-    if run_on_cpu:
-        os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+    if run_on_gpu:
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
     DIR, files = functions.initialize_input(data)
 
@@ -365,9 +394,8 @@ def face_analysis(
         deepface_ms.pop("age", None)
 
         faces = functions.detect_faces(
-            face_detector=None,
-            detector_backend=detector_backend,
             img=img,
+            detector_backend=detector_backend,
             align=align,
             enforce_detection=enforce_detection,
         )
@@ -446,7 +474,7 @@ def face_analysis(
                 }
             )
 
-    if return_raw:
+    if return_JSON:
         return DF_resp
     else:
         return pd.DataFrame(d)
@@ -571,7 +599,7 @@ def detect_objects(
                 "toothbrush",
             ]
 
-        return functions.build_yolo_df(labels)
+        return functions.build_yolo_df(labels, name)
 
     if model == "sub_open_images":
 
@@ -580,7 +608,7 @@ def detect_objects(
         )
 
         weights = (
-            functions.get_deepface_home() + "/.imgtovar/weights/" + "sub_oid_5l.pt"
+            functions.get_imgtovar_home() + "/.imgtovar/weights/" + "sub_oid_5l.pt"
         )
         name = "chart_cls" + "_result"
 
@@ -631,7 +659,7 @@ def detect_objects(
         )
 
         weights = (
-            functions.get_deepface_home() + "/.imgtovar/weights/" + "c_energy_5l.pt"
+            functions.get_imgtovar_home() + "/.imgtovar/weights/" + "c_energy_5l.pt"
         )
 
         name = "c_energy_5l" + "_result"
@@ -648,7 +676,6 @@ def detect_objects(
         )
 
         labels = [
-            "BUFFER",
             "Crane",
             "Wind turbine",
             "farm equipment",

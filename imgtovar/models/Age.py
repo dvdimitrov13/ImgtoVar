@@ -13,7 +13,7 @@ def loadModel(
 ):
 
     # Replace code snippet with new download_asset in functions
-    home = functions.get_deepface_home()
+    home = functions.get_imgtovar_home()
 
     if os.path.isfile(home + "/.imgtovar/weights/age_cls.h5") != True:
         print("age_cls.h5 will be downloaded...")

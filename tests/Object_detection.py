@@ -3,7 +3,7 @@ import sys
 
 from charset_normalizer import detect
 
-sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/imgtovars")
+sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
 
 from imgtovar import ImgtoVar
 
