@@ -14,7 +14,7 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 print("-----------------------------------------")
 
-expected_coverage = 57
+expected_coverage = 51
 num_cases = 0
 succeed_cases = 0
 
