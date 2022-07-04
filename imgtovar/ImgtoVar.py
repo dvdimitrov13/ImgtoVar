@@ -1,21 +1,24 @@
+import io
+import os
+import shutil
 from cProfile import label
 from multiprocessing.sharedctypes import Value
 from unicodedata import name
-from imgtovar.utils import functions
-from matplotlib import pyplot as plt
-from tqdm import tqdm
+
+import cv2
+import fitz  # PyMuPDF
 import numpy as np
 import pandas as pd
-import cv2
-import os
-import shutil
+from deepface import DeepFace
+from deepface.extendedmodels import Emotion, Gender, Race  # DeepFace models
+from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from PIL import Image
+from tqdm import tqdm
 from yolov5 import detect
 
-from mpl_toolkits.mplot3d import Axes3D
-
 from imgtovar.models import Age, Chart, Inverted, Nature  # Custom model
-from deepface.extendedmodels import Gender, Race, Emotion  # DeepFace models
-from deepface import DeepFace
+from imgtovar.utils import functions
 
 
 def build_model(model_name):
@@ -46,6 +49,40 @@ def build_model(model_name):
             raise ValueError("Invalid model_name passed - {}".format(model_name))
 
     return model_obj[model_name]
+
+
+def extract(data, mode="PDF"):
+
+    DIR, files = functions.initialize_input(data)
+
+    if mode.lower() == "pdf":
+        for path in files:
+            if ".pdf" in path:
+                doc = fitz.Document((os.path.join(DIR, path)))
+
+                for page_index in tqdm(range(len(doc)), desc="pages"):
+                    for image_index, img in enumerate(doc.get_page_images(page_index)):
+                        # get the XREF of the image
+                        xref = img[0]
+                        # extract the image bytes
+                        base_image = doc.extract_image(xref)
+                        image_bytes = base_image["image"]
+                        # get the image extension
+                        image_ext = base_image["ext"]
+                        # load it to PIL
+                        image = Image.open(io.BytesIO(image_bytes))
+                        # Create output_dir
+                        if not os.path.exists("./extract_output"):
+                            os.mkdir("./extract_output")
+                        # Save to output folder
+                        image.save(
+                            open(
+                                f"./extract_output/image{page_index+1}_{image_index}.{image_ext}",
+                                "wb",
+                            )
+                        )
+    else:
+        raise ValueError("Provide a valid mode: currently supporting only 'pdf'")
 
 
 def color_analysis(
