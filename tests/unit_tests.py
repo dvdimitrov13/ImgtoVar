@@ -98,10 +98,10 @@ def test_cases():
     print(objects.head())
 
     evaluate(objects["label"][0] is not None)
-    evaluate(objects["xmin"][0] is not None)
-    evaluate(objects["ymin"][0] is not None)
-    evaluate(objects["xmax"][0] is not None)
-    evaluate(objects["ymax"][0] is not None)
+    evaluate(objects["x"][0] is not None)
+    evaluate(objects["y"][0] is not None)
+    evaluate(objects["width"][0] is not None)
+    evaluate(objects["height"][0] is not None)
     evaluate(objects["confidence"][0] is not None)
 
     print("-----------------------------------------")
@@ -115,10 +115,10 @@ def test_cases():
     print(objects.head())
 
     evaluate(objects["label"][0] is not None)
-    evaluate(objects["xmin"][0] is not None)
-    evaluate(objects["ymin"][0] is not None)
-    evaluate(objects["xmax"][0] is not None)
-    evaluate(objects["ymax"][0] is not None)
+    evaluate(objects["x"][0] is not None)
+    evaluate(objects["y"][0] is not None)
+    evaluate(objects["width"][0] is not None)
+    evaluate(objects["height"][0] is not None)
     evaluate(objects["confidence"][0] is not None)
 
     print("-----------------------------------------")
@@ -132,10 +132,10 @@ def test_cases():
     print(objects.head())
 
     evaluate(objects["label"][0] is not None)
-    evaluate(objects["xmin"][0] is not None)
-    evaluate(objects["ymin"][0] is not None)
-    evaluate(objects["xmax"][0] is not None)
-    evaluate(objects["ymax"][0] is not None)
+    evaluate(objects["x"][0] is not None)
+    evaluate(objects["y"][0] is not None)
+    evaluate(objects["width"][0] is not None)
+    evaluate(objects["height"][0] is not None)
     evaluate(objects["confidence"][0] is not None)
 
     print("-----------------------------------------")
