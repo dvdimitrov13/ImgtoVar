@@ -17,11 +17,22 @@ from PIL import Image
 from tqdm import tqdm
 from yolov5 import detect
 
-from imgtovar.models import Age, Chart, Inverted, Nature  # Custom model
+from imgtovar.models import Age, Chart, Inverted, Background  # Custom model
 from imgtovar.utils import functions
 
 
 def build_model(model_name):
+
+    """
+	This function builds the models included with ImgtoVar
+	Parameters:
+		model_name (string): data clean, background classification or facial attributes model
+            Chart, Inverted for data clean
+            Background for background classification
+			Age, Gender, Emotion, Race for facial attributes
+	Returns:
+		built imgtovar model
+	"""
 
     # We store models in a global variable to avoid reloading within the same session
     global model_obj  # singleton design pattern
@@ -29,7 +40,7 @@ def build_model(model_name):
     models = {
         "Chart": Chart.loadModel,
         "Inverted": Inverted.loadModel,
-        "Nature": Nature.loadModel,
+        "Background": Background.loadModel,
         "Emotion": Emotion.loadModel,
         "Age": Age.loadModel,
         "Gender": Gender.loadModel,
@@ -52,6 +63,16 @@ def build_model(model_name):
 
 
 def extract(data, mode="PDF"):
+    """
+	This function extracts all images from a  PDF file and stores them in a dir named: ./extract_output
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		mode (string): Specifies the extraction mode, set to PDF by default, currently only PDF mode supported.
+
+	Returns:
+		None
+        Creates a dir named ./extract_output where all extracted images are saved.
+    """
 
     DIR, files = functions.initialize_input(data)
 
@@ -88,23 +109,20 @@ def extract(data, mode="PDF"):
 def color_analysis(
     data, extract_artificial=False, color_width=200, max_intensity=100000, threshold=0.5
 ):
-    """ Finds images in an img_folder with excessively shallow color profiles that will be poor examples of a class. 
+    """ 
+    This function finds images in an img_folder with excessively shallow color profiles that will be poor examples of a class. 
 
-    Parameters
-    ----------
-    img_folder: Path or str
-    Fold with images to examine.
-    return_all: bool
-    Determines if the function should return the entire dataset.
-    color_width: int
-    How many of the most populous hue:lightness pairs to sum together to determine the proportion of the final image they occupy. 
-    threshold: float, 0 < threshold < 1 
-    What percent of the image is acceptable for 1000 hue:lightness pairs to occupy, more than this is tagged for removal.
+    Parameters:
+		data: data_dir or exact image path could be passed.
+        extract_artificial (bool): Determines if the images classified as artificial based on the predefined threshold will be moved from the original data dir to a new dir called ./Artificial_images
+        color_width (int): How many of the most populous hue:lightness pairs to sum together to determine the proportion of the final image they occupy. 
+        threshold (float): 0 < threshold < 1, what percent of the image is acceptable for color_width hue:lightness pairs to occupy, more than this is tagged as artificial.
+        max_intensity (int): Ceiling value for the hue:lightness pair populations. This value will affect the pixel proportion if too low.
 
     Returns:
     ----------
     DataFrame
-    DataFrame with image paths to remove, and reason (pixel proportion).
+    DataFrame with image paths, the total H/L pairs detected and the proportion of the dominant population.
     """
 
     # Initialize input
@@ -167,6 +185,20 @@ def color_analysis(
 
 
 def detect_infographics(data, model=None, run_on_gpu=False, extract_infographics=False):
+    """
+	This function analyzes images to detect if they are Infographics and what type, useful before applying color_analysis
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		model: (Optional keras model object): model = ImgtoVar.build_model("Chart"), the model can be passed as a prebuilt model for increased performance especially in loops.
+		extract_inforgraphics (boolean): Determines if the images classified as infographics will be saved in a new dir with the following name: ./Infographics
+        run_on_gpu (bool): Determines if tensorflow should use GPU acceleration, default is set to False for stability, if enabled you could run into OOM error depending on available GPU VRAM.
+
+	Returns:
+		DataFrame
+        DataFrame with image paths, 
+                       the face number with respect to any given image,
+                       the predicted chart type including 'Not_chart' to indicate that no Infographic was detected.
+    """
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -236,6 +268,20 @@ def detect_infographics(data, model=None, run_on_gpu=False, extract_infographics
 
 
 def detect_invertedImg(data, model=None, run_on_gpu=False, extract_inverted=False):
+    """
+	This function analyzes images to detected those with inverted and distorted colors.
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		model: (Optional keras model object): model = ImgtoVar.build_model("Inverted"), the model can be passed as a prebuilt model for increased performance especially in loops.
+		extract_inverted (boolean): Determines if the images classified as inverted will be saved in a new dir with the following name: ./Inverted_imgs
+        run_on_gpu (bool): Determines if tensorflow should use GPU acceleration, default is set to False for stability, if enabled you could run into OOM error depending on available GPU VRAM.
+
+	Returns:
+		DataFrame
+        DataFrame with image paths, 
+                       the face number with respect to any given image,
+                       the predicted chart type including 'Not_chart' to indicate that no Infographic was detected.
+        """
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -287,6 +333,19 @@ def detect_invertedImg(data, model=None, run_on_gpu=False, extract_inverted=Fals
 
 
 def background_analysis(data, model=None, run_on_gpu=False):
+    """
+	This function analyzes the image background to identify if it is natural or man-made (Artificial), it also has a label 'Other' capturing images with no background or otherwise non-classifiable images.
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		model: (Optional keras model object): model = ImgtoVar.build_model("Background"), the model can be passed as a prebuilt model for increased performance especially in loops.
+        run_on_gpu (bool): Determines if tensorflow should use GPU acceleration, default is set to False for stability, if enabled you could run into OOM error depending on available GPU VRAM.
+
+	Returns:
+		DataFrame
+        DataFrame with image paths, 
+                       the face number with respect to any given image,
+                       the predicted chart type including 'Not_chart' to indicate that no Infographic was detected.
+        """
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -297,7 +356,7 @@ def background_analysis(data, model=None, run_on_gpu=False):
 
     # We build the model
     if not model:
-        model = build_model("Nature")
+        model = build_model("Background")
 
     d = []
 
@@ -305,12 +364,12 @@ def background_analysis(data, model=None, run_on_gpu=False):
 
         img = functions.load_image(img=os.path.join(DIR, file), BGR=False)
 
-        nature_labels = ["Natural", "Artificial", "Other"]
+        background_labels = ["Natural", "Artificial", "Other"]
 
         prep_img = functions.preprocess_img(img)
         prediction = int(np.argmax(model.predict(prep_img), axis=1))
 
-        d.append({"filename": file, "background": nature_labels[prediction]})
+        d.append({"filename": file, "background": background_labels[prediction]})
 
     return pd.DataFrame(d)
 
@@ -324,10 +383,68 @@ def face_analysis(
     extract_faces=False,
     enforce_detection=True,
     return_JSON=False,
-    custom_model_channel="RGB",
+    custom_model_channel="BGR",
     custom_target_size=(224, 224),
     run_on_gpu=False,
 ):
+
+    """
+	This function analyzes facial attributes including age, gender, emotion and race
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		actions (tuple): The default is ('age', 'gender', 'emotion', 'race'). You can drop some of those attributes.
+		models: (Optional[dict]) facial attribute analysis models are built in every call of analyze function. You can pass pre-built models to speed the function up or to use a custom model.
+            N.B. -- If using a custom model you need to pass it under a key == 'custom' (ex. models['custom'] = {custom_keras_model})
+			models = {}
+			models['age'] = ImgtoVar.build_model('Age') -- custom model that classifies in 5 age groups
+			models['gender'] = ImgtoVar.build_model('Gender') -- model built based on DeepFace
+			models['emotion'] = ImgtoVar.build_model('Emotion') -- model built based on DeepFace
+			models['race'] = ImgtoVar.build_model('Race') -- model built based on DeepFace
+		enforce_detection (boolean): The function throws exception if no faces were detected. Set to False by default.
+		detector_backend (string): set face detector backend as retinaface, mtcnn, opencv, ssd or dlib.
+		extract_faces (boolean): Determines if the faces extracted form the images will be saved in a new dir with the following name: ./faces_output
+        custom_model_channel (string): The channel used to train your custom model default is BGR set to "RGB" if needed
+        custom_target_size (tuple): The input size of the custom model, default is (224, 224)
+        run_on_gpu (bool): Determines if tensorflow should use GPU acceleration, default is set to False for stability, if enabled you could run into OOM error depending on available GPU VRAM.
+        return_JSON (boolean): Determines the return type, set to False by default.
+                               Set to true in order to get a ditionary with more detailed information, with the following format:
+                               {
+                                    "region": {'x': 230, 'y': 120, 'w': 36, 'h': 45},
+                                    "age": '20-26',
+                                    "dominant_gender": "Woman",
+                                    "gender": {
+                                        'Woman': 99.99407529830933,
+                                        'Man': 0.005928758764639497,
+                                    }
+                                    "dominant_emotion": "neutral",
+                                    "emotion": {
+                                        'sad': 37.65260875225067,
+                                        'angry': 0.15512987738475204,
+                                        'surprise': 0.0022171278033056296,
+                                        'fear': 1.2489334680140018,
+                                        'happy': 4.609785228967667,
+                                        'disgust': 9.698561953541684e-07,
+                                        'neutral': 56.33133053779602
+                                    }
+                                    "dominant_race": "white",
+                                    "race": {
+                                        'indian': 0.5480832420289516,
+                                        'asian': 0.7830780930817127,
+                                        'latino hispanic': 2.0677512511610985,
+                                        'black': 0.06337375962175429,
+                                        'middle eastern': 3.088453598320484,
+                                        'white': 93.44925880432129
+                                    }
+                                }
+
+	Returns:
+		DataFrame
+        DataFrame with image paths, 
+                       the face number with respect to any given image,
+                       the pixel size of the detected face,
+                       the coordinates of the detected face in the original image (xywh format),
+                       and the predicted attributes based on the actions given.
+        """
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -362,7 +479,7 @@ def face_analysis(
         if "race" in built_models and "race" not in actions:
             actions.append("race")
 
-        if "custom" in built_models and "emotion" not in actions:
+        if "custom" in built_models and "custom" not in actions:
             actions.append("custom")
 
     # ---------------------------------
@@ -489,6 +606,29 @@ def detect_objects(
     save_imgs=False,
     labels=None,
 ):
+    """
+	This function is a wrapper for object detection based on the YoloV5 architecture by Ultralytics.
+    By default it uses the COCO pre-trained weights provided by the original YoloV5 package.
+    Additionally it allows for the specification of two custom models trained specifically for ImgtoVars or finally a custom model trained by the user. 
+	Parameters:
+		data: data_dir or exact image path could be passed.
+		model (string): specifies model options. By default it is set to "csutom" which allows the setting of custom weights.
+               model can also be set to:
+                    * 'c_energy' -- a custom model trained to detected the following objects: ["Crane", "Wind turbine", "farm equipment", "oil pumps", "plant chimney", "solar panels"]
+                    * 'sub_open_images' -- a custom model trained on a subset of google Open Images dataset included labels are: [ "Animal", "Tree", "Plant", "Flower", "Fruit", "Suitcase", "Motorcycle", "Helicopter", "Sports Equipment", "Office Building", "Tool", "Medical Equipment", "Mug", "Sunglasses", "Headphones", "Swimwear", "Suit", "Dress", "Shirt", "Desk", "Whiteboard", "Jeans", "Helmet", "Building"]
+        weights (path): determines the weights used if model is set to 'custom' by default COCO pre-trained weights are used, specify labels parameter if you are using a custom model
+        conf_thres (float): 0 < conf_thresh < 1, the detection confidence cutoff
+        imgsz (int): The image size for detection, default set to 640, best results are achieved if the img size is the same as the one used for training for more information chech yolov5 documentation.
+        save_imgs (bool): Determines if the images on which detection was ran should be saved with the predictions overlayed. Set to False by default.
+        labels (list): A list with the labels used in custom prediction, must be set when using with custom model.
+
+	Returns:
+		DataFrame
+        DataFrame with image paths, 
+                       the predicted label,
+                       the coordinates of the detected object (xywh format),
+                       the confidence level of the prediction,
+    """
 
     # Validate data file format
     if os.path.isfile(data):
