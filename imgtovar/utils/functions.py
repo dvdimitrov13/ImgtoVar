@@ -173,7 +173,7 @@ def extract_number(f):
 
 def build_yolo_df(label_names, name):
     final = pd.DataFrame(
-        columns=["label", "xmin", "ymin", "xmax", "ymax", "confidence", "filename"]
+        columns=["label", "x", "y", "width", "height", "confidence", "filename"]
     )
 
     name = max(glob.glob("./runs/detect/{}*".format(name)), key=extract_number)
@@ -185,7 +185,7 @@ def build_yolo_df(label_names, name):
             os.path.join(name + "/labels", file),
             skipinitialspace=True,
             header=None,
-            names=["label", "xmin", "ymin", "xmax", "ymax", "confidence"],
+            names=["label", "x", "y", "width", "height", "confidence"],
             delim_whitespace=True,
         )
         if temp.shape[0] > 0:
