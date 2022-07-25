@@ -373,7 +373,7 @@ To use the subset of OpenImages dataset:
 coco_od_df = ImgtoVar.detect_objects(data, model="sub_open_images")
 ```
 
-The mAP at 0.5 IoU is ??%. This value is comparable with scores from the OpenImages data challenge where a much more complicated model achieved an overall score of ??% mAP at 0.5. The advantage of YoloV5 is its cutting edge speed, which allows researchers to extract variables from larger datasets.
+The mAP at 0.5 IoU is 59%. This value is comparable with scores from the OpenImages data challenge where a much more complicated model achieved an overall score of 65% mAP at 0.5. The advantage of YoloV5 is its cutting edge speed, which allows researchers to extract variables from larger datasets.
 
 <details>
   <summary>Here is a list of the labels included in the custom OpenImages dataset:
@@ -441,7 +441,7 @@ The final dataset is a custom dataset, made in connection with the research that
 coco_od_df = ImgtoVar.detect_objects(data, model="c_energy")
 ```
 
-The mAP at 0.5 IoU is ??%. 
+The mAP at 0.5 IoU is 91%. 
 
 <details>
   <summary>Finally, here is a list of the 6 labels included in this dataset:
