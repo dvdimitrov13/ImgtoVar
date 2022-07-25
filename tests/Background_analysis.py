@@ -5,6 +5,6 @@ sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
 
 from imgtovar import ImgtoVar
 
-df = ImgtoVar.background_analysis("./tests/test_data/nature_4.jpg")
+df = ImgtoVar.background_analysis("./tests/test_data")
 
 print(df.head(30))
