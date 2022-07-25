@@ -5,9 +5,9 @@ setup(
     version="0.0.1",
     description="",
     long_description="",
-    url="https://www.example.com",
+    url=" ",
     author="dvdimitrov13",
     author_email="dvdimitrov13@gmail.com",
     packages=[],
-    classifiers=["Development Status :: 1 - Cleanning up"],
+    classifiers=["Development Status :: 1 - Planning"],
 )

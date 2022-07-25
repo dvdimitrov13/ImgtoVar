@@ -1,2 +1,6 @@
 /extract_output
 /runs
+yolov5l.pt
+/dist
+/imgtovar.egg*
+/build
