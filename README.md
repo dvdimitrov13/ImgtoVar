@@ -173,7 +173,7 @@ For example, if an image shows a natural landscape with a small house in the mid
 
  |     Label: |	Natural	| Natural | Man-made|
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|  
-| Image:| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/nature_8.jpg" height="200" width="200"/>| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/nature_4.jpg" height="200" width="200"/>| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/not_nature_5.jpg" height="200" width="200"/>| 
+| Image:| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/nature_8.jpg" height="150" width="200"/>| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/nature_4.jpg" height="150" width="200"/>| <img src="https://github.com/dvdimitrov13/ImgtoVar/blob/master/images/not_nature_5.jpg" height="150" width="200"/>| 
 
 If the researcher wants to detect images with nothing man-made in them, the `background_analysis` method can be used in combination with the `object_detection` method to identify false positive cases.
 
