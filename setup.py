@@ -7,14 +7,13 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = "0.0.2"
 DESCRIPTION = "Extracting structured variables from image data"
 LONG_DESCRIPTION = "A package that allows researchers to analyse unstructured image data by extracting a range of features."
 
 # Setting up
 setup(
     name="imgtovar",
-    version=VERSION,
+    version="0.0.2",
     author="Dimitar Dimitrov",
     author_email="dvdimitrov13@gmail.com",
     description=DESCRIPTION,
