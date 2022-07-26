@@ -13,7 +13,7 @@ LONG_DESCRIPTION = "A package that allows researchers to analyse unstructured im
 # Setting up
 setup(
     name="imgtovar",
-    version="0.0.2",
+    version="0.1",
     author="Dimitar Dimitrov",
     author_email="dvdimitrov13@gmail.com",
     description=DESCRIPTION,
