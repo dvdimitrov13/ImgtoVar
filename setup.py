@@ -1,13 +1,45 @@
-from setuptools import setup
+from setuptools import setup, find_packages
+import codecs
+import os
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
+    long_description = "\n" + fh.read()
+
+VERSION = "0.0.2"
+DESCRIPTION = "Extracting structured variables from image data"
+LONG_DESCRIPTION = "A package that allows researchers to analyse unstructured image data by extracting a range of features."
+
+# Setting up
 setup(
     name="imgtovar",
-    version="0.0.1",
-    description="",
-    long_description="",
-    url=" ",
-    author="dvdimitrov13",
+    version=VERSION,
+    author="Dimitar Dimitrov",
     author_email="dvdimitrov13@gmail.com",
-    packages=[],
-    classifiers=["Development Status :: 1 - Planning"],
+    description=DESCRIPTION,
+    long_description_content_type="text/markdown",
+    long_description=long_description,
+    packages=find_packages(),
+    url="https://github.com/dvdimitrov13/ImgtoVar",
+    keywords=[
+        "python",
+        "research",
+        "image data",
+        "extract variables",
+        "object detection",
+        "background detection",
+        "face detection",
+        "facial attribute analysis",
+        "chart detection",
+        "graph detection",
+        "image color analysis",
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.5.5",
+    install_requires=["deepface>=0.0.75", "yolov5>=6.1.5", "PyMuPDF>=1.20.1"],
 )
