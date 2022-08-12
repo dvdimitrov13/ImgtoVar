@@ -4,7 +4,7 @@
 	</a>
 	<a href =https://www.linkedin.com/in/dimitarvalentindimitrov/><img src =https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555>
 	</a>
-	<a href =https://www.linkedin.com/in/dimitarvalentindimitrov/><img src =https://static.pepy.tech/personalized-badge/imgtovar?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads>
+	<a href =https://pypi.org/project/imgtovar//><img src =https://static.pepy.tech/personalized-badge/imgtovar?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads>
 	</a>
 	<!-- More to be added - stars, doi -->
 </div>
