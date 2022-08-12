@@ -106,7 +106,7 @@ This method should be used before the `color_analysis` in order to reduce the fa
 Through trial and error we have found that image extraction from PDF files results in a small percentage of images being corrupted. Those images have inverted channel values and additional problems with contrast and lightness. To identify those images ImgtoVar provides a method that has 93% accuracy in detecting the corrupted images.
 
 ```python
-hl_pairs_df = ImgtoVar.detect_invertedImg(data)
+inv_df = ImgtoVar.detect_invertedImg(data)
 ```
 
 The method returns a DataFrame with the predicted status of the analysed images. Additionally, provided user approval, the images identified as inverted are moved to a new directory.
