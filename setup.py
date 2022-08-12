@@ -13,7 +13,7 @@ LONG_DESCRIPTION = "A package that allows researchers to analyse unstructured im
 # Setting up
 setup(
     name="imgtovar",
-    version="0.4",
+    version="0.5",
     author="Dimitar Dimitrov",
     author_email="dvdimitrov13@gmail.com",
     description=DESCRIPTION,
@@ -39,7 +39,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.9.0",
+    python_requires=">=3.7.0",
     install_requires=[
         "tensorflow==2.4.0",
         "keras>=2.9.0",
@@ -47,6 +47,6 @@ setup(
         "yolov5>=6.1.5",
         "PyMuPDF>=1.20.1",
         "dlib>=19.24.0",
-        "mediapipe>=0.8.10.1"
+        "mediapipe>=0.8.10.1",
     ],
 )
