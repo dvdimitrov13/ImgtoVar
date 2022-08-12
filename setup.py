@@ -47,5 +47,6 @@ setup(
         "yolov5>=6.1.5",
         "PyMuPDF>=1.20.1",
         "dlib>=19.24.0",
+        "mediapipe>=0.8.10.1"
     ],
 )
