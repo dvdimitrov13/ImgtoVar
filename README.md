@@ -58,9 +58,9 @@ $ pip install imgtovar
 
 ## Variable Extraction Pipeline
 
-An interactive tutorial showcasing all methods in a sample workflow extracting features from image data of a PDF document can be found in the following [Google Collab notebook](https://colab.research.google.com/drive/1AoOdCYblstHekptblPMGu-BZ5cVBQwvt#offline=true&sandboxMode=true)
+An interactive tutorial showcasing all methods in a sample workflow extracting features from image data of a PDF document can be found in the following [Google Colab notebook](https://colab.research.google.com/drive/1AoOdCYblstHekptblPMGu-BZ5cVBQwvt?usp=sharing&#offline=true&sandboxMode=true)
 
-<a href="https://colab.research.google.com/drive/1AoOdCYblstHekptblPMGu-BZ5cVBQwvt#offline=true&sandboxMode=true"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height=28>
+<a href="https://colab.research.google.com/drive/1AoOdCYblstHekptblPMGu-BZ5cVBQwvt?usp=sharing&#offline=true&sandboxMode=true"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height=28>
    	</a>
 
 Now we go over a quick explanation of all the methods.
