@@ -5,8 +5,8 @@ sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
 
 from imgtovar import ImgtoVar
 
-# df = ImgtoVar.color_analysis("./extract_output", extract=False, resume=True)
-# df = ImgtoVar.detect_infographics("./tests/test_data copy", extract=True, resume=True)
+df = ImgtoVar.color_analysis("./extract_output", extract=True, resume=True)
+# df = ImgtoVar.detect_infographics("./extract_output", extract=True, resume=True)
 df = ImgtoVar.detect_invertedImg("./tests/test_data copy", extract=True)
 
 

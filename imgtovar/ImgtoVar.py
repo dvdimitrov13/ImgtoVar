@@ -210,8 +210,9 @@ def color_analysis(
 
             # Append to dataframe
             d.append(
-                {
-                    "filename": os.path.basename(image),
+                {   
+                    "id": os.path.basename(os.path.splitext(image)[0]),
+                    "filename": image,
                     "H/L_pairs": total_pairs,
                     "{}_dominant_pairs_%".format(color_width): proportion,
                 }
@@ -342,7 +343,7 @@ def detect_infographics(data, model=None, run_on_gpu=False, extract=False, resum
             prep_img = functions.preprocess_img(img)
             prediction = int(np.argmax(model.predict(prep_img), axis=1))
 
-            d.append({"filename": os.path.basename(file), "chart_type": chart_labels[prediction]})
+            d.append({"id": os.path.basename(os.path.splitext(file)[0]), "filename": file, "chart_type": chart_labels[prediction]})
 
         df = pd.DataFrame(d)        
         df.to_csv(output_dir + "/infographics.csv")
@@ -357,7 +358,7 @@ def detect_infographics(data, model=None, run_on_gpu=False, extract=False, resum
                     os.makedirs(destination)
             
                 for image in tqdm(extraction, desc="Moving artifical images to ./Output/infographics/Infographics"):
-                    shutil.move(os.path.join(DIR, image), destination)
+                    shutil.move(image, destination)
         
         progress.append(folder)
         with open(output_dir + "/checkpoints", "wb") as fp:   #Pickling
@@ -450,7 +451,7 @@ def detect_invertedImg(data, model=None, run_on_gpu=False, extract=False, resume
             prep_img = functions.preprocess_img(img)
             prediction = int(np.argmax(model.predict(prep_img), axis=1))
 
-            d.append({"filename": os.path.basename(file), "inverted": prediction == 1})
+            d.append({"id": os.path.basename(os.path.splitext(file)[0]), "filename": file, "inverted": prediction == 1})
 
         df = pd.DataFrame(d)        
         df.to_csv(output_dir + "/inverted.csv")
@@ -465,7 +466,7 @@ def detect_invertedImg(data, model=None, run_on_gpu=False, extract=False, resume
                     os.makedirs(destination)
 
                 for image in tqdm(extraction, desc="Moving artifical images to ./Output/inverted_imgs/exp/Inverted"):
-                    shutil.move(os.path.join(DIR, image), destination)
+                    shutil.move(image, destination)
 
     return pd.read_csv(output_dir + "/inverted.csv").iloc[:,1:]
 
@@ -546,7 +547,7 @@ def background_analysis(data, model=None, run_on_gpu=False, resume=False):
             prep_img = functions.preprocess_img(img)
             prediction = int(np.argmax(model.predict(prep_img), axis=1))
 
-            d.append({"filename": os.path.basename(file), "background": background_labels[prediction]})
+            d.append({"id": os.path.basename(os.path.splitext(file)[0]), "filename": file, "background": background_labels[prediction]})
 
         df = pd.DataFrame(d)        
         df.to_csv(output_dir + "/background_analysis.csv")
@@ -787,7 +788,8 @@ def face_analysis(
                 # Structure data
                 d.append(
                     {
-                        "filename": os.path.basename(file),
+                        "id": os.path.basename(os.path.splitext(file)[0]),
+                        "filename": file,
                         "face_number": i,
                         "face_size": "{}x{}".format(face.shape[0], face.shape[1]),
                         "face_x": region[0],
