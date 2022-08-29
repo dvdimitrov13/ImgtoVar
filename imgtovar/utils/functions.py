@@ -1,5 +1,8 @@
+from fileinput import filename
 import os
 import re
+import operator
+import functools
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -41,10 +44,17 @@ from deepface.detectors import (
 def initialize_input(data):
 
     if os.path.isfile(data):
-        return ".", [data]
+        print("Operating in mode 'single file'")
+        return ".", [[data]]
 
     elif os.path.isdir(data):
-        return data, os.listdir(data)
+        check = [1 if os.path.isdir(os.path.join(data, x)) else 0 for x in os.listdir(data)]
+        if functools.reduce(operator.mul, check, 1) == 0:
+            print("Operating in mode 'directory of files'")
+            return data, [[os.path.join(data, x) for x in os.listdir(data)]]
+        print("Operating in mode 'directory of directories'")
+        return data, [os.path.join(data, x) for x in os.listdir(data)]
+        
 
     else:
         raise ValueError("Confirm that ", data, " exists")
@@ -171,27 +181,27 @@ def extract_number(f):
     return (int(s[0]) if s else -1, f)
 
 
-def build_yolo_df(label_names, name):
+def build_yolo_df(label_names, output_dir):
     final = pd.DataFrame(
         columns=["label", "x", "y", "width", "height", "confidence", "filename"]
     )
 
-    name = max(glob.glob("./runs/detect/{}*".format(name)), key=extract_number)
-
-    print(name)
-
-    for file in tqdm(os.listdir(name + "/labels"), desc="Aggregating predictions",):
-        temp = pd.read_csv(
-            os.path.join(name + "/labels", file),
-            skipinitialspace=True,
-            header=None,
-            names=["label", "x", "y", "width", "height", "confidence"],
-            delim_whitespace=True,
-        )
-        if temp.shape[0] > 0:
-            temp["label"] = temp["label"].apply(lambda x: label_names[int(x)])
-            temp["filename"] = file
-            final = pd.concat([final, temp], ignore_index=True)
+    folders = [os.path.join(output_dir, x) for x in os.listdir(output_dir)]
+    for folder in tqdm(folders, desc='Aggregating yolo prediction results into a DataFrame'):
+        if os.path.isdir(folder):
+            for file in os.listdir(folder + "/labels"):
+                fname = file.split(".")[0]
+                temp = pd.read_csv(
+                    os.path.join(folder + "/labels", file),
+                    skipinitialspace=True,
+                    header=None,
+                    names=["label", "x", "y", "width", "height", "confidence"],
+                    delim_whitespace=True,
+                )
+                if temp.shape[0] > 0:
+                    temp["label"] = temp["label"].apply(lambda x: label_names[int(x)])
+                    temp["filename"] = fname
+                    final = pd.concat([final, temp], ignore_index=True)
 
     return final
 

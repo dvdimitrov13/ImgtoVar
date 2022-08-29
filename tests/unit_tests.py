@@ -8,6 +8,7 @@ sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
 from imgtovar import ImgtoVar
 import warnings
 import os
+import math
 
 warnings.filterwarnings("ignore")
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -25,6 +26,14 @@ def evaluate(condition):
 
     if condition is True:
         succeed_cases += 1
+    else:
+        print('---------------------------------------------')
+        print('---------------------------------------------')
+        print('---------------------------------------------')
+        print('WARNING TEST NOT PASSED')
+        print('---------------------------------------------')
+        print('---------------------------------------------')
+        print('---------------------------------------------')
 
     num_cases += 1
 
@@ -208,10 +217,12 @@ def test_cases():
         "./tests/face_dataset/img4.jpg", actions=["age", "gender"]
     )
 
+    print(demography)
+
     evaluate(demography.predicted_age[0] is not None)
     evaluate(demography.predicted_gender[0] is not None)
-    evaluate(demography.predicted_race[0] is None)
-    evaluate(demography.predicted_emotion[0] is None)
+    evaluate(math.isnan(demography.predicted_race[0]))
+    evaluate(math.isnan(demography.predicted_emotion[0]))
 
     print("-----------------------------------------")
 

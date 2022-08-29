@@ -4,3 +4,5 @@ yolov5l.pt
 /dist
 /imgtovar.egg*
 /build
+/Output
+/OLD_c_energy

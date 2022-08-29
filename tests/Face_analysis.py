@@ -6,7 +6,7 @@ sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
 from imgtovar import ImgtoVar
 
 # Slow speed comes mainly from face detection, marginal improvements on inference side
-df = ImgtoVar.face_analysis("./tests/dataset/", enforce_detection=False)
+df = ImgtoVar.face_analysis("./tests/face_dataset", enforce_detection=False, extract=True)
 
 ## I could write a test to see if all the columns are there, or any other thing i would normally check by hand
 
