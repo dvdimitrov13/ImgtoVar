@@ -336,7 +336,7 @@ The output of this method has the following structure:
  ```
   Output|
         |--object_detection|
-					       |{model_name}_exp_1|
+					   |{model_name}_exp_1|
 		                         |--object_detection.csv
 		                         |--checkpoints # Keeps track fo progress to allow for process resuming
 		                         |--pdf_name/folder_name| # Directory created only if save_imgs = True
