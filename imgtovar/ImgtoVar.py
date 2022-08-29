@@ -566,7 +566,7 @@ def face_analysis(
     models=None,
     detector_backend="retinaface",
     extract=False,
-    enforce_detection=True,
+    enforce_detection=False,
     resume = False,
     return_JSON=False,
     custom_model_channel="BGR",
