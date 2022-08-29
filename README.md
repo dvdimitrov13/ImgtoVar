@@ -116,14 +116,14 @@ The output directory structure looks as follows:
  ```
   Output|
         |--infographics|
-				       |exp_1|
-	                      |--infographics.csv
-	                      |--checkpoints # Keeps track fo progress to allow for process resuming
-	                      |--Infographics| # Directory created only if extracted = True
-					                        |--pdf_name/folder_name|
-								                                   |--extracted_images
-											...
-						...
+                       |exp_1|
+	                     |--infographics.csv
+	                     |--checkpoints # Keeps track fo progress to allow for process resuming
+	                     |--Infographics| # Directory created only if extracted = True
+					    |--pdf_name/folder_name|
+								   |--extracted_images
+					    ...
+			...
 ```
 
 This method should be used before the `color_analysis` in order to reduce the false positives in that step.
