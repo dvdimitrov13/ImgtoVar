@@ -152,14 +152,14 @@ The output directory structure looks as follows:
  ```
   Output|
         |--inverted_images|
-					         |exp_1|
-		                           |--inverted.csv
-		                           |--checkpoints # Keeps track fo progress to allow for process resuming
-		                           |--Inverted| # Directory created only if extracted = True
-						                      |--pdf_name/folder_name|
-								  	                                 |--extracted_images
-								   ...
-						      ...
+		     	  |exp_1|
+		                |--inverted.csv
+		                |--checkpoints # Keeps track fo progress to allow for process resuming
+		                |--Inverted| # Directory created only if extracted = True
+				           |--pdf_name/folder_name|
+				                                  |--extracted_images
+					   ...
+			 ...
 ```
 
 **3. color_analysis**
@@ -189,14 +189,14 @@ The output directory structure looks as follows:
  ```
   Output|
         |--color_analysis|
-					        |exp_1|
-		                          |--color_analysis.csv
-		                          |--checkpoints # Keeps track fo progress to allow for process resuming
-		                          |--Artificial| # Directory created only if extracted = True
-						                       |--pdf_name/folder_name|
-								  	                                  |--extracted_images
-								  ...
-						     ...
+			 |exp_1|
+		               |--color_analysis.csv
+		               |--checkpoints # Keeps track fo progress to allow for process resuming
+		               |--Artificial| # Directory created only if extracted = True
+			                    |--pdf_name/folder_name|
+			                                           |--extracted_images
+					     ...
+			 ...
 ```
 
 The filtering is based on that proportion. Where real images will have low proportion and drawings, logos or single color images will have a high proportion. By varying the `threshold` parameter the user can make the filtering more or less aggressive. 
@@ -265,14 +265,14 @@ The output directory structure looks as follows:
  ```
   Output|
         |--face_analysis|
-					       |exp_1|
-		                         |--facial_analysis.csv
-		                         |--checkpoints # Keeps track fo progress to allow for process resuming
-		                         |--Faces| # Directory created only if extracted = True
-						                      |--pdf_name/folder_name|
-								  	                                 |--extracted_faces
-								 ...
-						    ...
+			|exp_1|
+		              |--facial_analysis.csv
+		              |--checkpoints # Keeps track fo progress to allow for process resuming
+		              |--Faces| # Directory created only if extracted = True
+			              |--pdf_name/folder_name|
+			                                     |--extracted_faces
+			              ...
+			...
 ```
 
 
@@ -305,10 +305,10 @@ The output directory structure looks as follows:
  ```
   Output|
         |--background_analysis|
-					       |exp_1|
-		                         |--background_analysis.csv
-		                         |--checkpoints # Keeps track fo progress to allow for process resuming
-						    ...
+			      |exp_1|
+		                    |--background_analysis.csv
+		                    |--checkpoints # Keeps track fo progress to allow for process resuming
+			      ...
 ```
 
 #### Object Detection
@@ -336,17 +336,17 @@ The output of this method has the following structure:
  ```
   Output|
         |--object_detection|
-				   |{model_name}_exp_1|
-		                   |--object_detection.csv
-		                   |--checkpoints # Keeps track fo progress to allow for process resuming
-		                           |--pdf_name/folder_name| # Directory created only if save_imgs = True
-						                             |--labels|
-								  	                       |--image.txt
-								  	                       ...
-								  	                 |image.jpg
-								  	                 ...
-								    ...
-				   ...
+		           |{model_name}_exp_1|
+		                    	      |--object_detection.csv
+		           		      |--checkpoints # Keeps track fo progress to allow for process resuming
+		            		      |--pdf_name/folder_name| # Directory created only if save_imgs = True
+						                     |--labels|
+								  	      |--image.txt
+								  	      ...
+								     |image.jpg
+								     ...
+		                              ...
+		            ...
 ```
 
 
