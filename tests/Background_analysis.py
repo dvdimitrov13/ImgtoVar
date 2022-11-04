@@ -1,10 +1,15 @@
 # Adding module to path (required before publishing to pip)
 import sys
 
-sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
+sys.path.insert(0, "/home/dimitar/Desktop/ImgtoVar")
 
 from imgtovar import ImgtoVar
 
-df = ImgtoVar.background_analysis("./extract_output")
+background = ImgtoVar.background_analysis("./tests/test_data/nature_6.jpg")
 
-print(df.head(30))
+print("Image background detection:")
+print(background.head())
+
+assert(background["filename"][0] is not None)
+assert(background["background"][0] is not None)
+assert(background["background"][0] == "Natural")
