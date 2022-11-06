@@ -1,8 +1,4 @@
 # Adding module to path (required before publishing to pip)
-import sys
-
-sys.path.insert(0, "/home/dimitar/Desktop/ImgtoVar")
-
 from imgtovar import ImgtoVar
 
 background = ImgtoVar.background_analysis("./tests/test_data/nature_6.jpg")

@@ -1,10 +1,4 @@
 # Adding module to path (required before publishing to pip)
-import sys
-
-from charset_normalizer import detect
-
-sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
-
 from imgtovar import ImgtoVar
 
 # df = ImgtoVar.detect_objects("./tests/test_data")

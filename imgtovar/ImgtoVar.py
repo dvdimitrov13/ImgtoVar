@@ -542,7 +542,7 @@ def background_analysis(data, model=None, run_on_gpu=False, resume=False):
 
             img = functions.load_image(img=file, BGR=False)
 
-            background_labels = ["Natural", "Artificial", "Other"]
+            background_labels = ["Artificial", "Natural", "Other"]
 
             prep_img = functions.preprocess_img(img)
             prediction = int(np.argmax(model.predict(prep_img), axis=1))
