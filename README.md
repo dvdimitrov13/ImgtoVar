@@ -1,30 +1,15 @@
 <!-- PROJECT SHIELDS -->
-
-<div  align="center">
-
-<a  href  =https://github.com/dvdimitrov13/Predict-recipe-cuisine-using-NLPLogo_Detection/blob/master/LICENSE><img  src  =https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat>
-
-</a>
-
-<a  href  =https://www.linkedin.com/in/dimitarvalentindimitrov/><img  src  =https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555>
-
-</a>
-
-<a  href  =https://pypi.org/project/imgtovar/><img  src  =https://static.pepy.tech/personalized-badge/imgtovar?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads>
-
-</a>
-
-<!-- More to be added - stars, doi -->
-
+<div align="center">
+	<a href =https://github.com/dvdimitrov13/Predict-recipe-cuisine-using-NLPLogo_Detection/blob/master/LICENSE><img src =https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat>
+	</a>
+	<a href =https://www.linkedin.com/in/dimitarvalentindimitrov/><img src =https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555>
+	</a>
+	<a href =https://www.linkedin.com/in/dimitarvalentindimitrov/><img src =https://static.pepy.tech/personalized-badge/imgtovar?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads>
+	</a>
+	<!-- More to be added - stars, doi -->
 </div>
 
-  
-
-<h1  align="center">imgtovar</h1>
-
-  
-
-<p  align="left">
+<h1 align="center">imgtovar</h1>
 
 Imgtovar is a Python module, developed in collaboration with researchers, which allows for variable extraction from image data. The pipeline consists of three steps - image extraction, cleaning and prediction. This module integrates some functions from the popular module DeepFace for facial attribute analsis.
 
