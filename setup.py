@@ -13,7 +13,7 @@ LONG_DESCRIPTION = "A package that allows researchers to analyse unstructured im
 # Setting up
 setup(
     name="imgtovar",
-    version="0.9.3",
+    version="1.1.0",
     author="Dimitar Dimitrov",
     author_email="dvdimitrov13@gmail.com",
     description=DESCRIPTION,
@@ -46,5 +46,6 @@ setup(
         "yolov5>=6.1.5",
         "PyMuPDF>=1.20.1",
         "dlib>=19.24.0",
+        "mediapipe >= 0.9.0"
     ],
 )
