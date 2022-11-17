@@ -84,7 +84,7 @@ Currently supporting Natural vs Man-made background analysis, Chart recognition 
 ## Installation [![PyPI](https://img.shields.io/pypi/v/imgtovar.svg)](https://pypi.org/project/imgtovar/)
 
   
-:heavy_exclamation_mark::heavy_exclamation_mark: Currently ImgtoVar is undergoing a full transtion to PyTorch, in the meantime the stable version is 1.1.0. Which is fully functional but due to environment conflicts the object detection model can only run inference on CPU. 
+:heavy_exclamation_mark::heavy_exclamation_mark: Currently ImgtoVar is undergoing a full transtion to PyTorch, in the meantime the stable version is 1.1. Which is fully functional but due to environment conflicts the object detection model can only run inference on CPU. 
 
 The current insallation procedure requires the set up of a Tensorflow GPU enabled environment with a CPU installation of PyTorch. The easiest way to achieve that is through conda.
 
