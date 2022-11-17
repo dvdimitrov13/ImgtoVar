@@ -49,8 +49,6 @@ def loadModel(
 
     model = Model(inputs=input, outputs=x)
 
-    print(model.summary())
-
     model.load_weights(
         home + "/.imgtovar/weights/nature_cls.h5"
     )

@@ -1,8 +1,7 @@
 # Adding module to path (required before publishing to pip)
 import sys
-
-sys.path.insert(0, "/home/dimitar/Documents/Thesis_research/ImgtoVar")
+sys.path.append("/home/dimitar/Desktop/ImgtoVar")
 
 from imgtovar import ImgtoVar
 
-ImgtoVar.extract("./tests/test_pdf.pdf")
+ImgtoVar.extract("./tests/test.pdf")

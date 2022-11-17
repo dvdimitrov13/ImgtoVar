@@ -750,7 +750,7 @@ def face_analysis(
                     )
 
                 DF_resp = DeepFace.analyze(
-                    face, detector_backend="skip", models=deepface_ms, prog_bar=False
+                    face, detector_backend="skip", models=deepface_ms, prog_bar=False, actions=()
                 )
 
                 if "age" in actions:
